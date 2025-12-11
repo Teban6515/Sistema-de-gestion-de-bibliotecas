@@ -1,0 +1,25 @@
+{
+  "loan_history": {
+    "U001": {
+      "user_id": "U001",
+      "history": []
+    },
+    "U002": {
+      "user_id": "U002",
+      "history": []
+    },
+    "U003": {
+      "user_id": "U003",
+      "history": []
+    },
+    "U004": {
+      "user_id": "U004",
+      "history": []
+    },
+    "U005": {
+      "user_id": "U005",
+      "history": []
+    }
+  },
+  "last_updated": "2025-12-11T01:41:33.316519"
+}

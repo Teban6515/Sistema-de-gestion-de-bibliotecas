@@ -90,8 +90,7 @@ def linear_search_by_isbn(books_list, isbn):
             return i
     return -1
 
-### buscar libro por ISBN y verifica reservas cuando se devuelve un libro
-
+### Encontrar la posición de un libro en una lista ordenada usando su ISBN.
 def binary_search_by_isbn(sorted_books, isbn):
 
     left = 0

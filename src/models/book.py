@@ -71,26 +71,32 @@ class Book:
         self.author = author
         self.weight = float(weight)
         self.value = int(value)
-        self.stock = int(stock)
+        self.stock = int(stock)  # Número de copias disponibles (se modifica en préstamos)
         self.category = category
         self.publisher = publisher
         self.year = int(year)
     
     def is_available(self):
         """
-        Check if the book is available for loan.
-        
+        VERIFICAR DISPONIBILIDAD PARA PRÉSTAMO
+
+        Usado en LoanManager.loan_book() para verificar si hay copias disponibles.
+        Un libro está disponible si stock > 0.
+
         Returns:
-            bool: True if stock > 0, False otherwise
+            bool: True si hay copias disponibles (stock > 0)
         """
         return self.stock > 0
     
     def decrease_stock(self):
         """
-        Decrease stock by 1 when book is loaned.
-        
+        DECREMENTAR STOCK AL PRESTAR LIBRO
+
+        Se llama en LoanManager.loan_book() después de verificar disponibilidad.
+        Reduce el stock en 1 (stock -= 1).
+
         Returns:
-            bool: True if successful, False if no stock available
+            bool: True si exitoso, False si no hay stock disponible
         """
         if self.stock > 0:
             self.stock -= 1
@@ -99,7 +105,10 @@ class Book:
     
     def increase_stock(self):
         """
-        Increase stock by 1 when book is returned.
+        INCREMENTAR STOCK AL DEVOLVER LIBRO
+
+        Se llama en LoanManager.return_book() cuando un usuario devuelve un libro.
+        Aumenta el stock en 1 (stock += 1).
         """
         self.stock += 1
     

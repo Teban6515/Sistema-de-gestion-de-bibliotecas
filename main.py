@@ -464,66 +464,104 @@ class LibraryManagementSystem:
                 break
     
     def _loan_book(self):
-        """Loan a book to a user"""
+        """
+        INTERFAZ PARA PRESTAR UN LIBRO
+
+        Aquí se realiza la gestión completa del préstamo:
+        1. Validación de usuario
+        2. Verificación de límite de préstamos (user.max_loans)
+        3. Llamada a LoanManager para registrar el préstamo
+        4. Actualización del contador de préstamos activos del usuario
+        """
         print("\n📖 LOAN BOOK")
         print("-"*80)
-        
+
+        # Solicita ID del usuario y verifica que exista
         user_id = input("User ID: ").strip()
         user = self.user_manager.get_user(user_id)
         if not user:
             print("❌ User not found")
             return
-        
+
+        # Verifica si el usuario puede tomar más libros (current_loans < max_loans)
         if not user.can_borrow():
             print(f"❌ User has reached maximum loans ({user.max_loans})")
             return
-        
+
+        # Solicita ISBN del libro (ej: 978-0-201-61622-4)
         isbn = input("Book ISBN: ").strip()
+
+        # LoanManager.loan_book() verifica disponibilidad, decrementa stock y registra préstamo
         success, msg = self.loan_manager.loan_book(user_id, isbn)
-        
+
         if success:
+            # Incrementa el contador de préstamos activos del usuario
             user.increment_loans()
             print(f"\n✅ {msg}")
         else:
             print(f"\n❌ {msg}")
     
     def _return_book(self):
-        """Return a book"""
+        """
+        INTERFAZ PARA DEVOLVER UN LIBRO
+
+        Aquí se realiza la gestión de devolución:
+        1. Validación de usuario
+        2. Llamada a LoanManager para procesar la devolución
+        3. Actualización del contador de préstamos activos del usuario
+        """
         print("\n📖 RETURN BOOK")
         print("-"*80)
-        
+
+        # Solicita ID del usuario
         user_id = input("User ID: ").strip()
         user = self.user_manager.get_user(user_id)
         if not user:
             print("❌ User not found")
             return
-        
+
+        # Solicita ISBN del libro a devolver
         isbn = input("Book ISBN: ").strip()
+
+        # LoanManager.return_book() incrementa stock y marca préstamo como devuelto
         success, msg = self.loan_manager.return_book(user_id, isbn)
-        
+
         if success:
+            # Decrementa el contador de préstamos activos del usuario
             user.decrement_loans()
             print(f"\n✅ {msg}")
         else:
             print(f"\n❌ {msg}")
     
     def _view_loan_history(self):
-        """View user's loan history"""
+        """
+        INTERFAZ PARA VER HISTORIAL DE PRÉSTAMOS
+
+        Muestra todos los préstamos del usuario (activos y devueltos) desde el Stack.
+        La estructura Stack permite ver los préstamos en orden LIFO (más reciente primero).
+        """
+        # Solicita ID del usuario
         user_id = input("\nEnter User ID: ").strip()
+
+        # Obtiene el Stack completo de préstamos del usuario
         history = self.loan_manager.get_user_history(user_id)
-        
+
         if history.is_empty():
             print(f"\n📖 No loan history for user {user_id}")
             return
-        
+
         print(f"\n📖 LOAN HISTORY FOR USER {user_id}")
         print("-"*80)
+
+        # Itera sobre el Stack mostrando cada préstamo
         for i, loan in enumerate(history, 1):
+            # Determina el estado: Activo (returned=False) o Devuelto (returned=True)
             status = "✅ Returned" if loan.get('returned', False) else "📖 Active"
             print(f"\n[{i}] {status}")
             print(f"    ISBN: {loan['isbn']}")
             print(f"    Title: {loan['title']}")
             print(f"    Loan Date: {loan['loan_date']}")
+            # Muestra fecha de devolución solo si el libro fue devuelto
             if loan.get('returned', False):
                 print(f"    Return Date: {loan.get('return_date', 'N/A')}")
     

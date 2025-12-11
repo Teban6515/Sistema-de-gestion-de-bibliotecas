@@ -11,10 +11,10 @@ Course: Programming Techniques
 """
 ###recurcion de pila ...y de cola vs
 ##Pila: return valor + recursion() - opera después
-#Pila: calculo valor total (sumo al regresar)
 
 ##Cola: return recursion(nuevo_estado) - opera antes
-#Cola: calculo promedio (acumulo antes de llamar)"
+
+###Calcular el valor total de los libros de un autor específico usando recursión de pila.
 def calculate_total_value_by_author(books_list, author, index=0):
   
     # Base case: reached end of list
@@ -33,7 +33,7 @@ def calculate_total_value_by_author(books_list, author, index=0):
         # Skip this book, continue with next
         return calculate_total_value_by_author(books_list, author, index + 1)
 
-
+###Calcular el peso promedio de los libros de un autor específico usando recursión de cola.
 def calculate_average_weight_by_author(books_list, author, index=0, total_weight=0, count=0):
 
     # Base case: reached end of list

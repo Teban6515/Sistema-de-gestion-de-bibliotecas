@@ -3,9 +3,20 @@ from ..algorithms.sorting import insertion_sort_by_isbn, merge_sort_by_value
 from ..algorithms.searching import binary_search_by_isbn, linear_search_by_title, linear_search_by_author
 
 class InventoryManager:
+    """
+    GESTOR DE INVENTARIO DE LIBROS
+
+    Mantiene dos listas de libros:
+    - general_inventory: Lista sin orden específico (búsquedas lineales)
+    - sorted_inventory: Lista ordenada por ISBN (búsquedas binarias - O(log n))
+
+    El LoanManager usa este gestor para:
+    - Verificar disponibilidad de libros (search_by_isbn)
+    - Actualizar stock al prestar/devolver (decrease_stock/increase_stock)
+    """
     def __init__(self):
-        self.general_inventory = []
-        self.sorted_inventory = []
+        self.general_inventory = []  # Lista general para búsquedas lineales
+        self.sorted_inventory = []   # Lista ordenada por ISBN para búsqueda binaria
     
     def add_book(self, book):
         self.general_inventory.append(book)
@@ -23,6 +34,12 @@ class InventoryManager:
         return None
     
     def search_by_isbn(self, isbn):
+        """
+        BUSCAR LIBRO POR ISBN (usado en préstamos)
+
+        Usa búsqueda binaria en sorted_inventory - Complejidad O(log n)
+        El LoanManager llama esto para verificar disponibilidad antes de prestar
+        """
         idx = binary_search_by_isbn(self.sorted_inventory, isbn)
         return self.sorted_inventory[idx] if idx != -1 else None
     

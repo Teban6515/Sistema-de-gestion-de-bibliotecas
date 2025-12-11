@@ -71,24 +71,30 @@ class User:
         self.address = address
         self.registration_date = registration_date or datetime.now().strftime("%Y-%m-%d")
         self.active = active
-        self.max_loans = max_loans
-        self.current_loans = 0  # Track current number of active loans
+        self.max_loans = max_loans  # Límite de préstamos simultáneos (default: 5)
+        self.current_loans = 0  # Contador de préstamos activos (se incrementa/decrementa al prestar/devolver)
     
     def can_borrow(self):
         """
-        Check if user can borrow more books.
-        
+        VERIFICAR SI EL USUARIO PUEDE PRESTAR MÁS LIBROS
+
+        Usado en main.py -> _loan_book() antes de permitir préstamos.
+        Verifica que el usuario esté activo y no haya alcanzado el límite.
+
         Returns:
-            bool: True if user can borrow (active and under limit)
+            bool: True si puede prestar (active=True y current_loans < max_loans)
         """
         return self.active and self.current_loans < self.max_loans
     
     def increment_loans(self):
         """
-        Increment the count of current loans.
-        
+        INCREMENTAR CONTADOR DE PRÉSTAMOS ACTIVOS
+
+        Se llama en main.py -> _loan_book() después de un préstamo exitoso.
+        Incrementa current_loans en 1.
+
         Returns:
-            bool: True if successful, False if at max loans
+            bool: True si exitoso, False si está en el límite máximo
         """
         if self.can_borrow():
             self.current_loans += 1
@@ -97,10 +103,13 @@ class User:
     
     def decrement_loans(self):
         """
-        Decrement the count of current loans when book is returned.
-        
+        DECREMENTAR CONTADOR DE PRÉSTAMOS ACTIVOS
+
+        Se llama en main.py -> _return_book() después de una devolución exitosa.
+        Decrementa current_loans en 1.
+
         Returns:
-            bool: True if successful, False if no active loans
+            bool: True si exitoso, False si no tiene préstamos activos
         """
         if self.current_loans > 0:
             self.current_loans -= 1

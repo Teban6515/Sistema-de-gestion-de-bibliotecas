@@ -10,35 +10,10 @@ Date: December 2025
 Course: Programming Techniques
 """
 
+### Mantiene el inventario ordenado automáticamente cada vez que agregas un libro
+
 def insertion_sort_by_isbn(books_list):
-    """
-    Sort a list of Book objects by ISBN using Insertion Sort algorithm.
     
-    This algorithm is used to maintain the Sorted Inventory every time
-    a new book is added to the system. It's efficient for nearly sorted data.
-    
-    Args:
-        books_list (list): List of Book objects to sort
-    
-    Returns:
-        list: The same list, sorted in-place by ISBN (ascending)
-    
-    Time Complexity:
-        - Best case: O(n) - Already sorted
-        - Average case: O(n²)
-        - Worst case: O(n²) - Reverse sorted
-    
-    Space Complexity: O(1) - In-place sorting
-    
-    Stability: Stable - preserves relative order of equal elements
-    
-    Algorithm:
-        1. Start from second element
-        2. Compare with elements to its left
-        3. Shift larger elements one position right
-        4. Insert current element in correct position
-        5. Repeat until all elements are sorted
-    """
     n = len(books_list)
     
     # Traverse from second element to end
@@ -84,30 +59,10 @@ def insertion_sort_by_value(books_list):
     
     return books_list
 
+### Genera reportes ordenados por valor en tiempo garantizado
 
 def merge_sort_by_value(books_list):
-    """
-    Sort a list of Book objects by value using Merge Sort algorithm.
-    
-    This algorithm is used to generate the Global Inventory Report
-    sorted by Value (COP). It guarantees O(n log n) performance.
-    
-    Args:
-        books_list (list): List of Book objects to sort
-    
-    Returns:
-        list: New sorted list by value (descending for reports)
-    
-    Time Complexity: O(n log n) in all cases
-    Space Complexity: O(n) - requires additional space for merging
-    
-    Stability: Stable - preserves relative order of equal elements
-    
-    Algorithm (Divide and Conquer):
-        1. Divide: Split list into two halves
-        2. Conquer: Recursively sort each half
-        3. Combine: Merge the sorted halves
-    """
+
     # Base case: list with 0 or 1 element is already sorted
     if len(books_list) <= 1:
         return books_list

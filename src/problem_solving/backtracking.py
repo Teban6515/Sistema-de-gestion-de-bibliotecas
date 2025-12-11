@@ -9,7 +9,7 @@ Date: December 2025
 Course: Programming Techniques
 """
 
-
+### Encuentra la combinación óptima con PODA eficiente
 def find_optimal_shelf_backtracking(books_list, max_weight=8.0, show_exploration=False):
     """
     Find the optimal combination of books that maximizes value using BACKTRACKING.
@@ -58,6 +58,7 @@ def find_optimal_shelf_backtracking(books_list, max_weight=8.0, show_exploration
            ...    ...      ...    ...
     """
     # Sort books by value/weight ratio (greedy heuristic for better pruning)
+    # Ordenar libros por la relación valor/peso (heurística codiciosa para una mejor poda)
     sorted_books = sorted(books_list, key=lambda b: b.value / b.weight, reverse=True)
     
     best_solution = {
@@ -67,7 +68,7 @@ def find_optimal_shelf_backtracking(books_list, max_weight=8.0, show_exploration
         'book_count': 0,
         'isbns': []
     }
-    
+    # Usar lista para mantener referencia en función anidada
     exploration_count = [0]  # Use list to maintain reference in nested function
     pruning_count = [0]
     
@@ -92,6 +93,7 @@ def find_optimal_shelf_backtracking(books_list, max_weight=8.0, show_exploration
                   f"Weight: {current_weight:.2f}/{max_weight} Kg, "
                   f"Value: ${current_value:,}")
         
+        # Comprobar si la solución actual es mejor que la mejor encontrada hasta el momento
         # Check if current solution is better than best found so far
         if current_value > best_solution['total_value']:
             best_solution = {
@@ -103,15 +105,17 @@ def find_optimal_shelf_backtracking(books_list, max_weight=8.0, show_exploration
             }
             if show_exploration:
                 print(f"{indent}✨ NEW BEST: ${current_value:,} COP")
-        
+
+        # Caso base: se han considerado todos los libros
         # Base case: all books have been considered
         if index >= len(sorted_books):
             return
         
         current_book = sorted_books[index]
-        
+        # PODA 1: Comprobar si añadir este libro excedería el peso
         # PRUNING 1: Check if adding this book would exceed weight
         if current_weight + current_book.weight <= max_weight:
+            # OPCIÓN 1: INCLUIR el libro actual
             # CHOICE 1: INCLUDE current book
             if show_exploration:
                 print(f"{indent}↓ Including: {current_book.title[:30]}")
@@ -122,7 +126,7 @@ def find_optimal_shelf_backtracking(books_list, max_weight=8.0, show_exploration
                      current_value + current_book.value,
                      depth + 1)
             current_books.pop()  # BACKTRACK
-            
+
             if show_exploration:
                 print(f"{indent}↑ Backtracking from include")
         else:
@@ -130,7 +134,9 @@ def find_optimal_shelf_backtracking(books_list, max_weight=8.0, show_exploration
             pruning_count[0] += 1
             if show_exploration:
                 print(f"{indent}✂️ PRUNED: Would exceed weight limit")
-        
+                
+        # PODA 2: Comprobación del límite optimista
+        # Calcular el límite superior: valor actual + valores de todos los libros restantes
         # PRUNING 2: Optimistic bound check
         # Calculate upper bound: current value + all remaining books' values
         remaining_value = sum(book.value for book in sorted_books[index + 1:])

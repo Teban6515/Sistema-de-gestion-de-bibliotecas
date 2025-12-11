@@ -90,35 +90,10 @@ def linear_search_by_isbn(books_list, isbn):
             return i
     return -1
 
+### buscar libro por ISBN y verifica reservas cuando se devuelve un libro
 
 def binary_search_by_isbn(sorted_books, isbn):
-    """
-    Search for a book by ISBN using Binary Search algorithm (CRITICAL).
-    
-    This is a CRITICAL function used to search in the Sorted Inventory.
-    Its result is MANDATORY for verifying if a returned book has
-    pending reservations in the waiting queue.
-    
-    IMPORTANT: The list MUST be sorted by ISBN in ascending order.
-    
-    Args:
-        sorted_books (list): List of Book objects sorted by ISBN
-        isbn (str): Exact ISBN to search for
-    
-    Returns:
-        int: Index of book if found, -1 if not found
-    
-    Time Complexity: O(log n) - much faster than linear search
-    Space Complexity: O(1) - iterative implementation
-    
-    Algorithm:
-        1. Start with entire range [left, right]
-        2. Calculate middle index
-        3. If middle element matches, return index
-        4. If target < middle, search left half
-        5. If target > middle, search right half
-        6. Repeat until found or range exhausted
-    """
+
     left = 0
     right = len(sorted_books) - 1
     

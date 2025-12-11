@@ -9,38 +9,14 @@ Author: [Your Name]
 Date: December 2025
 Course: Programming Techniques
 """
+###recurcion de pila ...y de cola vs
+##Pila: return valor + recursion() - opera después
+#Pila: calculo valor total (sumo al regresar)
 
+##Cola: return recursion(nuevo_estado) - opera antes
+#Cola: calculo promedio (acumulo antes de llamar)"
 def calculate_total_value_by_author(books_list, author, index=0):
-    """
-    Calculate the total value of all books by a specific author using STACK RECURSION.
-    
-    This function demonstrates traditional recursion where operations are
-    performed AFTER the recursive call returns (during the unwinding phase).
-    
-    Args:
-        books_list (list): List of Book objects
-        author (str): Author name to filter by
-        index (int): Current index in list (for recursion)
-    
-    Returns:
-        int: Total value of all books by the author in COP
-    
-    Time Complexity: O(n) where n is number of books
-    Space Complexity: O(n) due to recursion call stack
-    
-    Recursion Type: STACK RECURSION
-    - Operations happen during unwinding
-    - Each call waits for the result of the next call
-    - Call stack grows with each recursive call
-    
-    Example execution trace for [Book1(author=A, value=100), Book2(author=A, value=200)]:
-        calculate_total_value_by_author(books, "A", 0)
-          -> 100 + calculate_total_value_by_author(books, "A", 1)
-                    -> 200 + calculate_total_value_by_author(books, "A", 2)
-                              -> 0 (base case)
-                    -> returns 200
-          -> returns 300
-    """
+  
     # Base case: reached end of list
     if index >= len(books_list):
         return 0
@@ -59,45 +35,7 @@ def calculate_total_value_by_author(books_list, author, index=0):
 
 
 def calculate_average_weight_by_author(books_list, author, index=0, total_weight=0, count=0):
-    """
-    Calculate the average weight of books by author using TAIL RECURSION.
-    
-    This function demonstrates tail recursion where all operations are
-    performed BEFORE the recursive call. The recursive call is the LAST
-    operation in the function.
-    
-    Args:
-        books_list (list): List of Book objects
-        author (str): Author name to filter by
-        index (int): Current index in list
-        total_weight (float): Accumulator for total weight
-        count (int): Accumulator for number of matching books
-    
-    Returns:
-        float: Average weight of books by the author in Kg (0 if no books found)
-    
-    Time Complexity: O(n)
-    Space Complexity: O(n) in Python (no TCO), but conceptually O(1)
-    
-    Recursion Type: TAIL RECURSION
-    - All operations happen before the recursive call
-    - The recursive call is the last operation
-    - Uses accumulators to carry state
-    - In languages with TCO, this would use constant stack space
-    
-    Python Note: Python does NOT implement Tail Call Optimization (TCO),
-    so this still uses O(n) space for the call stack. However, it demonstrates
-    the tail recursion pattern which is important for understanding optimization
-    in other languages.
-    
-    Example execution with console output:
-        calculate_average_weight_by_author(books, "A", 0, 0, 0)
-          [Step 0] Processing: Book1, Weight: 1.5, Running total: 1.5, Count: 1
-          -> calculate_average_weight_by_author(books, "A", 1, 1.5, 1)
-            [Step 1] Processing: Book2, Weight: 2.0, Running total: 3.5, Count: 2
-            -> calculate_average_weight_by_author(books, "A", 2, 3.5, 2)
-              [Base case] Total: 3.5, Count: 2, Average: 1.75
-    """
+
     # Base case: reached end of list
     if index >= len(books_list):
         # Calculate and return average
